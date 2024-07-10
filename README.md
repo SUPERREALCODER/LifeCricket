@@ -1,4 +1,4 @@
-#Life Cricket
+# Life Cricket
 
 Have you ever thought about to make life a play .Guess what you are wrong .Life is already a play .Just our minds don't work without keeping scores for which scores doesn't exist .So this is my way of keeping scores .It helps me to keep my mind show it's presence .And the presence helps me excel in some situations.
 
