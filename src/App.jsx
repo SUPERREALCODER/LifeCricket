@@ -6,74 +6,102 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export function App() {
-  const [selectedButton, setSelectedButton] = useState(null);
-  const [counters, setCounters] = useState({
-    Place: 0,
-    Home: 0,
-    Bodhon: 0,
-    Persona: 0,
-    Mount: 0,
-    Kolkata: 0,
-    Japan: 0,
-    Trours: 0
-  });
-  const [counter, ball] = useState({
-    Place: 0,
-    Home: 0,
-    Bodhon: 0,
-    Persona: 0,
-    Mount: 0,
-    Kolkata: 0,
-    Japan: 0,
-    Trours: 0
-  });
+   const [selectedButton, setSelectedButton] = useState(null);
+  const [counters, setCounters] = useState({});
+  const [counter, ball] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await axios.get('http://localhost:5000');
+      const initialCounters = {};
+      const initialBalls = {};
+      result.data.forEach(({ button_name, counter_value, ball_value }) => {
+        initialCounters[button_name] = counter_value;
+        initialBalls[button_name] = ball_value;
+      });
+      setCounters(initialCounters);
+      ball(initialBalls);
+    }
+    fetchData();
+  }, []);
+
   const balls = (buttonName) => {
-    ball((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 1
-    }));
+    ball((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 1 };
+      saveCounter(buttonName, counters[buttonName], newCounters[buttonName]);
+      return newCounters;
+    });
   };
+
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
   };
+
   const incrementCounter = (buttonName) => {
-    setCounters((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 1
-    }));
+    setCounters((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 1 };
+      saveCounter(buttonName, newCounters[buttonName], counter[buttonName]);
+      return newCounters;
+    });
   };
+
   const incrementTwocounter = (buttonName) => {
-    setCounters((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 2
-    }));
+    setCounters((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 2 };
+      saveCounter(buttonName, newCounters[buttonName], counter[buttonName]);
+      return newCounters;
+    });
   };
+
   const incrementThreecounter = (buttonName) => {
-    setCounters((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 3
-    }));
+    setCounters((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 3 };
+      saveCounter(buttonName, newCounters[buttonName], counter[buttonName]);
+      return newCounters;
+    });
   };
+
   const incrementFourcounter = (buttonName) => {
-    setCounters((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 4
-    }));
+    setCounters((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 4 };
+      saveCounter(buttonName, newCounters[buttonName], counter[buttonName]);
+      return newCounters;
+    });
   };
+
   const incrementSixcounter = (buttonName) => {
-    setCounters((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 6
-    }));
+    setCounters((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 6 };
+      saveCounter(buttonName, newCounters[buttonName], counter[buttonName]);
+      return newCounters;
+    });
   };
+
   const incrementNo = (buttonName) => {
-    setCounters((prevCounters) => ({
-      ...prevCounters,
-      [buttonName]: prevCounters[buttonName] + 1
-    }));
+    setCounters((prevCounters) => {
+      const newCounters = { ...prevCounters, [buttonName]: prevCounters[buttonName] + 1 };
+      saveCounter(buttonName, newCounters[buttonName], counter[buttonName]);
+      return newCounters;
+    });
   };
 
-
+  const saveCounter = async (buttonName, counterValue, ballValue) => {
+   
+  console.log(buttonName);
+  console.log(counterValue);
+  console.log(ballValue);
+    
+    try {
+      await axios.post('http://localhost:5000/counters', {
+        butto: buttonName,
+        counto: counterValue,
+        ballo: ballValue
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error sending data:', error);
+    }
+  };
 
   return (
     <div>

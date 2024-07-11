@@ -12,15 +12,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = new pg.Client({
     user: "postgres",
     host: "localhost",
-    database: "world",
+    database: "Mytools",
     password: "manashama_24",
     port: 5432,
   });
   //connecting to the database checked 
   db.connect();
-  app.get('/counters', async (req, res) => {
+  app.get('/', async (req, res) => {
     try {
-      const result = await pool.query('SELECT * FROM counters');
+      const result = await db.query('SELECT * FROM counters');
+      
       res.json(result.rows);
     } catch (err) {
       console.error(err);
@@ -29,17 +30,18 @@ const db = new pg.Client({
   });
   
   app.post('/counters', async (req, res) => {
-    const { buttonName, counterValue, ballValue } = req.body;
-    try {
-      await pool.query(
-        'INSERT INTO counters (button_name, counter_value, ball_value) VALUES ($1, $2, $3) ON CONFLICT (button_name) DO UPDATE SET counter_value = $2, ball_value = $3',
-        [buttonName, counterValue, ballValue]
+    const { butto, counto, ballo } = req.body;
+    console.log(req.body);
+    /*try {
+      await db.query(
+        'INSERT INTO counters (button_name, counter_value, ball_value) ',
+        [butto, counto, ballo]
       );
       res.status(200).json({ success: true });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal Server Error' });
-    }
+    }*/
   });
   
   app.listen(port, () => {
@@ -49,10 +51,10 @@ const db = new pg.Client({
 
 
 
-document.addEventListener("onclick",buttonAnimation)
+//document.addEventListener("onclick",buttonAnimation)
 
-function buttonAnimation(){
+/*function buttonAnimation(){
     
     pressKey.classList.add("pressed");
     setTimeout(function(){pressKey.classList.remove("pressed")},100);
-}
+}*/
